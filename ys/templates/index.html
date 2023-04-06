@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查询</title>
+</head>
+<body>
+<div>
+    <p><a href="{% url 'update_content_list' %}">更新</a></p>
+    <form action="{% url 'select_content_list' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="查询">
+    </form>
+    {% if total %}
+    <h2>{{list|length}}/{{total}}</h2>
+    {% endif %}
+    <ul>
+        {% for content in list %}
+        <li><a href="https://ys.mihoyo.com/main/news/detail/{{content.content_id}}">{{content.title}}</a></li>
+        {% empty %}
+        <li>没有符合当前查询条件的结果</li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>

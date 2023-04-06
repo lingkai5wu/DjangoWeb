@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新</title>
+</head>
+<body>
+<div>
+    <p><a href="{% url 'select_content_list' %}">查询</a></p>
+    <form action="{% url 'update_content_list' %}" method="post">
+        {% csrf_token %}
+        <table>
+            {{ form.as_table }}
+        </table>
+        <input type="submit" value="发起更新">
+    </form>
+    {% if total %}
+    <h2>{{list|length}}/{{total}}</h2>
+    {% endif %}
+    <ul>
+        {% for content in list %}
+        <li>{{content}}</li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
