@@ -27,11 +27,10 @@ def update_content_list(request):
                         content_id=content['contentId'],
                         defaults={'content_id': content['contentId'],
                                   'title': content['title'],
-                                  'start_time': content['start_time'],
-                                  'create_time': timezone.now()}
+                                  'start_time': content['start_time']}
                     )
                     if created:
-                        context['list'].append(f'填加\t{obj.title}')
+                        context['list'].append(f'添加\t{obj.title}')
                     else:
                         context['list'].append(f'覆盖\t{obj.title}')
                 Update.objects.create(
@@ -41,7 +40,7 @@ def update_content_list(request):
             else:
                 return HttpResponse(data['message'])
     else:
-        context['form'] = UpdateContentForm(initial={'channel_id': 10})
+        context['form'] = UpdateContentForm(initial={'page_num': 1, 'channel_id': 10})
     return render(request, 'update.html', context)
 
 
@@ -51,8 +50,11 @@ def select_content_list(request):
         form = SelectContentForm(request.POST)
         context['form'] = form
         if form.is_valid():
-            context['list'] = Content.objects.filter(title__contains=form.cleaned_data['title'])
-            context['total'] = Update.objects.latest('last_time').last_total
+            context['list'] = Content.objects.filter(title__contains=form.cleaned_data['title'])[::-1]
     else:
         context['form'] = SelectContentForm()
+        context['list'] = Content.objects.all()[::-1]
+    u = Update.objects.latest('last_time')
+    context['total'] = u.last_total
+    context['time'] = u.last_time
     return render(request, 'index.html', context)

@@ -6,7 +6,9 @@ from django.db import models
 # 运行 python manage.py makemigrations 为模型的改变生成迁移文件。
 # 运行 python manage.py migrate 来应用数据库迁移。
 
+
 class Content(models.Model):
+    objects = None
     content_id = models.IntegerField(primary_key=True)
     title = models.TextField()
     banner = models.URLField()
@@ -18,5 +20,6 @@ class Content(models.Model):
 
 
 class Update(models.Model):
-    last_time = models.TimeField()
+    objects = None
+    last_time = models.DateTimeField()
     last_total = models.IntegerField()

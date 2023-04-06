@@ -6,15 +6,18 @@
 </head>
 <body>
 <div>
-    <p><a href="{% url 'update_content_list' %}">更新</a></p>
+    <h2><a href="https://ys.mihoyo.com/main/news">最新新闻（官网）</a></h2>
+    <p>所有内容来自原神官网，可能滞后，点击上方超链接前往官网</p>
+    <p>上次更新: {{time}}</p>
     <form action="{% url 'select_content_list' %}" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="查询">
     </form>
     {% if total %}
-    <h2>{{list|length}}/{{total}}</h2>
+    <h3>{{list|length}}/{{total}}</h3>
     {% endif %}
+    {% comment "列表展示" %}
     <ul>
         {% for content in list %}
         <li><a href="https://ys.mihoyo.com/main/news/detail/{{content.content_id}}">{{content.title}}</a></li>
@@ -22,6 +25,17 @@
         <li>没有符合当前查询条件的结果</li>
         {% endfor %}
     </ul>
+    {% endcomment %}
+    <table>
+        {% for content in list %}
+        <tr>
+            <td><a href="https://ys.mihoyo.com/main/news/detail/{{content.content_id}}">{{content.title}}</a></td>
+            <td>{{content.start_time}}</td>
+        </tr>
+        {% empty %}
+        <p>没有符合当前查询条件的结果</p>
+        {% endfor %}
+    </table>
 </div>
 </body>
 </html>
