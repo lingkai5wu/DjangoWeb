@@ -6,6 +6,7 @@
 </head>
 <body>
 <div>
+    <h2><a href="{% url 'select_content_list' %}">回到查询</a></h2>
     <form action="{% url 'update_content_list' %}" method="post">
         {% csrf_token %}
         <table>

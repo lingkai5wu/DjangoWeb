@@ -2,6 +2,7 @@ import requests
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
+from django.core.exceptions import ObjectDoesNotExist
 
 from ys.forms import UpdateContentForm, SelectContentForm
 from ys.models import Content, Update
@@ -17,7 +18,12 @@ def update_content_list(request):
             payload = {'pageSize': form.cleaned_data['page_size'],
                        'pageNum': form.cleaned_data['page_num'],
                        'channelId': form.cleaned_data['channel_id']}
-            data = requests.get(url, params=payload).json()
+            proxy = f"{form.cleaned_data['address']}:{form.cleaned_data['port']}"
+            proxies = {
+                'http': proxy,
+                'https': proxy
+            }
+            data = requests.get(url, params=payload, proxies=proxies).json()
             if data['retcode'] == 0:
                 content_list = data['data']['list']
                 context['total'] = data['data']['total']
@@ -34,13 +40,22 @@ def update_content_list(request):
                     else:
                         context['list'].append(f'覆盖\t{obj.title}')
                 Update.objects.create(
-                    last_time=timezone.now(),
-                    last_total=context['total']
+                    update_time=timezone.now(),
+                    total=context['total'],
+                    address=form.cleaned_data['address'],
+                    port=form.cleaned_data['port']
                 )
             else:
                 return HttpResponse(data['message'])
     else:
-        context['form'] = UpdateContentForm(initial={'page_num': 1, 'channel_id': 10})
+        initial = {'page_num': 1, 'channel_id': 10}
+        try:
+            q = Update.objects.latest('update_time')
+            initial['address'] = q.address
+            initial['port'] = q.port
+        except ObjectDoesNotExist:
+            print('需要初始化')
+        context['form'] = UpdateContentForm(initial=initial)
     return render(request, 'update.html', context)
 
 
@@ -54,7 +69,10 @@ def select_content_list(request):
     else:
         context['form'] = SelectContentForm()
         context['list'] = Content.objects.all()[::-1]
-    u = Update.objects.latest('last_time')
-    context['total'] = u.last_total
-    context['time'] = u.last_time
+    try:
+        q = Update.objects.latest('update_time')
+        context['total'] = q.total
+        context['update_time'] = q.update_time
+    except ObjectDoesNotExist:
+        print('需要初始化')
     return render(request, 'index.html', context)

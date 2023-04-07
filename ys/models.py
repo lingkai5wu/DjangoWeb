@@ -8,7 +8,6 @@ from django.db import models
 
 
 class Content(models.Model):
-    objects = None
     content_id = models.IntegerField(primary_key=True)
     title = models.TextField()
     banner = models.URLField()
@@ -20,6 +19,7 @@ class Content(models.Model):
 
 
 class Update(models.Model):
-    objects = None
-    last_time = models.DateTimeField()
-    last_total = models.IntegerField()
+    update_time = models.DateTimeField()
+    total = models.IntegerField()
+    address = models.GenericIPAddressField()
+    port = models.IntegerField()
