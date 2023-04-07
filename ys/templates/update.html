@@ -16,11 +16,11 @@
         <input type="submit" value="发起更新">
     </form>
     {% if total %}
-    <h2>{{list|length}}/{{total}}</h2>
+        <h2>{{ list|length }}/{{ total }}</h2>
     {% endif %}
     <ul>
         {% for content in list %}
-        <li>{{content}}</li>
+            <li>{{ content }}</li>
         {% endfor %}
     </ul>
 </div>

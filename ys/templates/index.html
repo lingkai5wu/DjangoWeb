@@ -10,26 +10,26 @@
 <div class="content-wrap">
     <h2><a href="https://ys.mihoyo.com/main/news/10">最新新闻（官网）</a></h2>
     <p>所有内容来自原神官网，可能滞后，点击上方超链接前往官网</p>
-    <p>上次更新: {{update_time}}</p>
+    <p>上次更新: {{ update_time }}</p>
     <form action="{% url 'select_content_list' %}" method="post">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="查询">
     </form>
     {% if total %}
-    <h3>{{list|length}}/{{total}}</h3>
+        <h3>{{ list|length }}/{{ total }}</h3>
     {% endif %}
 
     <ul>
         {% for content in list %}
-        <li class="item">
-            <a class="title" href="https://ys.mihoyo.com/main/news/detail/{{content.content_id}}">
-                <h4 class="info" title="{{content.title}}">{{content.title}}</h4>
-                <div>{{content.start_time}}</div>
-            </a>
-        </li>
+            <li class="item">
+                <a class="title" href="https://ys.mihoyo.com/main/news/detail/{{ content.content_id }}">
+                    <h4 class="info" title="{{ content.title }}">{{ content.title }}</h4>
+                    <div>{{ content.start_time }}</div>
+                </a>
+            </li>
         {% empty %}
-        <li><h3>在上方输入关键词查询，或<a href="{% url 'show_all_content_list' %}">查看全部</a></h3></li>
+            <li><h3>在上方输入关键词查询，或<a href="{% url 'show_all_content_list' %}">查看全部</a></h3></li>
         {% endfor %}
     </ul>
 </div>
