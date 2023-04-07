@@ -11,18 +11,20 @@
     <h1>全部新闻</h1>
     <p>上次更新: {{ update_time }}</p>
     <h3><a href="{% url 'select_content_list' %}">返回查询</a></h3>
-    {% if total %}
-        <h3>{{ list|length }}/{{ total }}</h3>
-    {% endif %}
-    <table>
+    <h3>{{ list|length }}/{{ total }}</h3>
+
+    <ul>
         {% for content in list %}
-            <tr>
-                <td><a href="https://ys.mihoyo.com/main/news/detail/{{ content.content_id }}">{{ content.title }}</a>
-                </td>
-                <td>{{ content.start_time }}</td>
-            </tr>
+            <li class="item">
+                <a class="title" href="https://ys.mihoyo.com/main/news/detail/{{ content.content_id }}">
+                    <h4 class="info" title="{{ content.title }}">{{ content.title }}</h4>
+                    <div>{{ content.start_time }}</div>
+                </a>
+            </li>
+        {% empty %}
+            <li><h3>在上方输入关键词查询，或<a href="{% url 'show_all_content_list' %}">查看全部</a></h3></li>
         {% endfor %}
-    </table>
+    </ul>
 </div>
 </body>
 </html>
