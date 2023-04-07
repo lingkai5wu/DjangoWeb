@@ -33,7 +33,7 @@
             <td>{{content.start_time}}</td>
         </tr>
         {% empty %}
-        <p>没有符合当前查询条件的结果</p>
+        <h3>在上方输入关键词查询，或<a href="{% url 'show_all_content_list' %}">查看全部</a></h3>
         {% endfor %}
     </table>
 </div>

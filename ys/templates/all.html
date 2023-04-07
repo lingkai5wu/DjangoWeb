@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全部新闻</title>
+</head>
+<body>
+<div>
+    <h1>全部新闻</h1>
+    <p>上次更新: {{update_time}}</p>
+    <h3><a href="{% url 'select_content_list' %}">返回查询</a></h3>
+    {% if total %}
+    <h3>{{list|length}}/{{total}}</h3>
+    {% endif %}
+    <table>
+        {% for content in list %}
+        <tr>
+            <td><a href="https://ys.mihoyo.com/main/news/detail/{{content.content_id}}">{{content.title}}</a></td>
+            <td>{{content.start_time}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+</html>

@@ -1,8 +1,8 @@
 import requests
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
-from django.core.exceptions import ObjectDoesNotExist
 
 from ys.forms import UpdateContentForm, SelectContentForm
 from ys.models import Content, Update
@@ -68,11 +68,20 @@ def select_content_list(request):
             context['list'] = Content.objects.filter(title__contains=form.cleaned_data['title'])[::-1]
     else:
         context['form'] = SelectContentForm()
-        context['list'] = Content.objects.all()[::-1]
+    context['total'], context['update_time'] = get_latest_update_info()
+    return render(request, 'index.html', context)
+
+
+def show_all_content_list(request):
+    context = {}
+    context['total'], context['update_time'] = get_latest_update_info()
+    context['list'] = Content.objects.all()[::-1]
+    return render(request, 'all.html', context)
+
+
+def get_latest_update_info():
     try:
         q = Update.objects.latest('update_time')
-        context['total'] = q.total
-        context['update_time'] = q.update_time
+        return q.total, q.update_time
     except ObjectDoesNotExist:
         print('需要初始化')
-    return render(request, 'index.html', context)
