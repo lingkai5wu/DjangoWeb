@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>全部新闻</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'contentStyle.css' %}">
 </head>
 <body>
-<div>
+<div class="container">
     <h1>全部新闻</h1>
     <p>上次更新: {{ update_time }}</p>
     <h3><a href="{% url 'select_content_list' %}">返回查询</a></h3>
@@ -21,8 +22,6 @@
                     <div>{{ content.start_time }}</div>
                 </a>
             </li>
-        {% empty %}
-            <li><h3>在上方输入关键词查询，或<a href="{% url 'show_all_content_list' %}">查看全部</a></h3></li>
         {% endfor %}
     </ul>
 </div>

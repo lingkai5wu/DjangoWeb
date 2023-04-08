@@ -1,34 +1,47 @@
-a {
-	text-decoration: none;
+body {
+    background-color: #f0f0f0;
+    margin: 0;
+}
+
+.container {
+    max-width: 840px;
+    margin: 0px auto;
+}
+
+@media (max-width: 880px) {
+    .container {
+        margin: 0px 20px;
+    }
+}
+
+label {
+    display: none;
+}
+
+input {
+    font-size: 20px;
 }
 
 ul {
-	padding: 10px;
-}
-
-li {
-	list-style-type: none;
-}
-
-body {
-	background-color: #f0f0f0;
+    padding: 0;
 }
 
 .item {
-	background-color: #fff;
-	padding: 8px 16px;
-	margin: 10px 0;
-	border-radius: 4px;
+    background-color: #fff;
+    padding: 8px 16px;
+    margin: 10px 0;
+    border-radius: 4px;
+    list-style-type: none;
 }
 
 .title {
-	color: #393b40;
-	text-decoration: none;
-	overflow: hidden;
+    color: #393b40;
+    text-decoration: none;
+    overflow: hidden;
 }
 
 .info {
-	margin: 6px 0;
-	font-size: 20px;
-	font-weight: 400;
+    margin: 2px 0 4px 0;
+    font-size: 20px;
+    font-weight: 400;
 }
