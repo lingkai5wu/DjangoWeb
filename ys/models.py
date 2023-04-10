@@ -21,5 +21,3 @@ class Content(models.Model):
 class Update(models.Model):
     update_time = models.DateTimeField()
     total = models.IntegerField()
-    address = models.GenericIPAddressField()
-    port = models.IntegerField()

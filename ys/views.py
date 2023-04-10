@@ -18,12 +18,7 @@ def update_content_list(request):
             payload = {'pageSize': form.cleaned_data['page_size'],
                        'pageNum': form.cleaned_data['page_num'],
                        'channelId': form.cleaned_data['channel_id']}
-            proxy = f"{form.cleaned_data['address']}:{form.cleaned_data['port']}"
-            proxies = {
-                'http': proxy,
-                'https': proxy
-            }
-            data = requests.get(url, params=payload, proxies=proxies).json()
+            data = requests.get(url, params=payload).json()
             if data['retcode'] == 0:
                 content_list = data['data']['list']
                 context['total'] = data['data']['total']
@@ -41,20 +36,12 @@ def update_content_list(request):
                         context['list'].append(f'覆盖\t{obj.title}')
                 Update.objects.create(
                     update_time=timezone.now(),
-                    total=context['total'],
-                    address=form.cleaned_data['address'],
-                    port=form.cleaned_data['port']
+                    total=context['total']
                 )
             else:
                 return HttpResponse(data['message'])
     else:
         initial = {'page_num': 1, 'channel_id': 10}
-        try:
-            q = Update.objects.latest('update_time')
-            initial['address'] = q.address
-            initial['port'] = q.port
-        except ObjectDoesNotExist:
-            print('需要初始化')
         context['form'] = UpdateContentForm(initial=initial)
     return render(request, 'update.html', context)
 
