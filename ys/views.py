@@ -1,10 +1,9 @@
 import requests
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
-from django.views import View
-from django.views.generic.base import ContextMixin, TemplateView
+from django.views.generic.base import ContextMixin, TemplateView, RedirectView
 from django.views.generic.list import ListView
 
 from ys.forms import UpdateContentForm, SelectContentForm
@@ -82,14 +81,10 @@ class ContentListView(ListView, UpdateInfoMixin):
     paginate_by = 50
 
 
-class SearchRedirectView(View):
-    def get(self, request):
-        search_keyword = request.GET.get('title', '')
-        if search_keyword:
-            redirect_url = reverse('search', args=[search_keyword])
-            return HttpResponseRedirect(redirect_url)
-        else:
-            return HttpResponseBadRequest('搜索关键字不能为空！')
+class SearchRedirectView(RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        search_keyword = self.request.GET.get('title', '')
+        return reverse('search', args=[search_keyword])
 
 
 class IndexView(TemplateView, UpdateInfoMixin):
