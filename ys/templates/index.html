@@ -3,14 +3,14 @@
 {% block title %}原神新闻搜索{% endblock %}
 
 {% block head %}
-{% load static %}
-<link href="{% static 'contentStyle.css' %}" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'contentStyle.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block container %}
-<form action="{% url 'search_redirect' %}" method="get">
-    {{ form }}
-    <input type="submit" value="查询">
-</form>
-<h3>在上方输入关键词搜索，或<a href="{% url 'all'%}">查看全部</a></h3>
+    <form action="{% url 'search_redirect' %}" method="get">
+        {{ form }}
+        <input type="submit" value="查询">
+    </form>
+    <h3>在上方输入关键词搜索，或<a href="{% url 'all' %}">查看全部</a></h3>
 {% endblock %}

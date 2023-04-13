@@ -1,27 +1,27 @@
 {% extends "base_ys.html" %}
 
 {% block head %}
-{% load static %}
-<link href="{% static 'contentStyle.css' %}" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'contentStyle.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block container %}
-{% block tips %}{% endblock %}
+    {% block tips %}{% endblock %}
 
-<ul>
-    {% for content in content_list %}
-    <li>
-        <a class="item" href="https://ys.mihoyo.com/main/news/detail/{{ content.content_id }}">
-            <h4 class="title" title="{{ content.title }}">{{ content.title }}</h4>
-            <div>{{ content.start_time }}</div>
-        </a>
-    </li>
-    {% empty %}
-    {% block empty_tips %}{% endblock %}
-    {% endfor %}
-</ul>
+    <ul>
+        {% for content in content_list %}
+            <li>
+                <a class="item" href="https://ys.mihoyo.com/main/news/detail/{{ content.content_id }}">
+                    <h4 class="title" title="{{ content.title }}">{{ content.title }}</h4>
+                    <div>{{ content.start_time }}</div>
+                </a>
+            </li>
+        {% empty %}
+            {% block empty_tips %}{% endblock %}
+        {% endfor %}
+    </ul>
 
-<div class="pagination">
+    <div class="pagination">
     <span>
         {% if page_obj.has_previous %}
             <a class="more" href="?page=1">&laquo;</a>
@@ -41,6 +41,6 @@
             <a style="visibility: hidden;">下一页</a>
         {% endif %}
     </span>
-</div>
+    </div>
 
 {% endblock %}

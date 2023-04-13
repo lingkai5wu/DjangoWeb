@@ -16,22 +16,22 @@
         <input type="submit" value="发起更新">
     </form>
     {% if total %}
-    <h2>{{ list|length }}/{{ total }}</h2>
+        <h2>{{ list|length }}/{{ total }}</h2>
     {% endif %}
     <ul>
         {% for content in list %}
-        <li>{{ content }}</li>
+            <li>{{ content }}</li>
         {% empty %}
-        <div>
-            <li>feat：提交新功能</li>
-            <li>fix：修复了bug</li>
-            <li>docs：只修改了文档</li>
-            <li>style：调整代码格式，未修改代码逻辑（比如修改空格、格式化、缺少分号等）</li>
-            <li>refactor：代码重构，既没修复bug也没有添加新功能</li>
-            <li>lierf：性能优化，提高性能的代码更改</li>
-            <li>test：添加或修改代码测试</li>
-            <li>chore：对构建流程或辅助工具和依赖库（如文档生成等）的更改</li>
-        </div>
+            <div>
+                <li>feat：提交新功能</li>
+                <li>fix：修复了bug</li>
+                <li>docs：只修改了文档</li>
+                <li>style：调整代码格式，未修改代码逻辑（比如修改空格、格式化、缺少分号等）</li>
+                <li>refactor：代码重构，既没修复bug也没有添加新功能</li>
+                <li>lierf：性能优化，提高性能的代码更改</li>
+                <li>test：添加或修改代码测试</li>
+                <li>chore：对构建流程或辅助工具和依赖库（如文档生成等）的更改</li>
+            </div>
         {% endfor %}
     </ul>
 </div>

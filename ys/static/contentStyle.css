@@ -1,99 +1,99 @@
 body {
-	background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 label {
-	display: none;
+    display: none;
 }
 
 form {
-	display: flex;
-	flex-wrap: nowrap;
-	align-items: center;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 
 input {
-	font-size: 18px;
+    font-size: 18px;
 }
 
 input[type="text"] {
-	flex-grow: 1;
-	padding: 6px;
-	border: 2px solid #ddd;
-	border-radius: 5px;
-	margin-right: 10px;
-	max-width: 300px;
+    flex-grow: 1;
+    padding: 6px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+    max-width: 300px;
 }
 
 input[type="submit"] {
-	background-color: #333;
-	color: #fff;
-	padding: 6px 12px;
-	border-radius: 4px;
-	border: none;
-	cursor: pointer;
+    background-color: #333;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
 }
 
 ul {
-	padding: 0;
+    padding: 0;
 }
 
 li {
-	list-style-type: none;
+    list-style-type: none;
 }
 
 .item {
-	display: block;
-	background-color: #fafafa;
-	padding: 8px 16px;
-	margin: 10px 0;
-	border-radius: 4px;
-	border: 2px solid #f0f0f0;
-	transition: border 0.3s;
-	color: #393b40;
-	text-decoration: none;
-	overflow: hidden;
+    display: block;
+    background-color: #fafafa;
+    padding: 8px 16px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 2px solid #f0f0f0;
+    transition: border 0.3s;
+    color: #393b40;
+    text-decoration: none;
+    overflow: hidden;
 }
 
 .item:hover {
-	background-color: #fff;
-	border: 2px solid #ddd;
+    background-color: #fff;
+    border: 2px solid #ddd;
 }
 
 .title {
-	margin: 0 0 4px 0;
-	font-size: 20px;
-	font-weight: 400;
+    margin: 0 0 4px 0;
+    font-size: 20px;
+    font-weight: 400;
 }
 
 .pagination {
-	display: flex;
-	justify-content: center;
-	margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
 }
 
 .pagination a {
-	color: #333;
-	text-decoration: none;
-	padding: 5px 10px;
-	border-radius: 5px;
-	margin: 0 5px;
+    color: #333;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 0 5px;
 }
 
 .pagination a:hover {
-	background-color: #ddd;
+    background-color: #ddd;
 }
 
 .pagination .current {
-	color: #fff;
-	background-color: #333;
-	padding: 5px 10px;
-	border-radius: 5px;
-	margin: 0 5px;
+    color: #fff;
+    background-color: #333;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 0 5px;
 }
 
 @media (max-width: 500px) {
-	.pagination .more {
-		display: none;
-	}
+    .pagination .more {
+        display: none;
+    }
 }
