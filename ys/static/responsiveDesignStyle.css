@@ -1,0 +1,15 @@
+body {
+	margin: 0;
+}
+
+.container {
+	max-width: 840px;
+	margin: 0 auto;
+	padding-left: calc(100vw - 100%);
+}
+
+@media (max-width: 880px) {
+	.container {
+		margin: 0 20px;
+	}
+}

@@ -1,0 +1,46 @@
+{% extends "base_ys.html" %}
+
+{% block head %}
+{% load static %}
+<link href="{% static 'contentStyle.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block container %}
+{% block tips %}{% endblock %}
+
+<ul>
+    {% for content in content_list %}
+    <li>
+        <a class="item" href="https://ys.mihoyo.com/main/news/detail/{{ content.content_id }}">
+            <h4 class="title" title="{{ content.title }}">{{ content.title }}</h4>
+            <div>{{ content.start_time }}</div>
+        </a>
+    </li>
+    {% empty %}
+    {% block empty_tips %}{% endblock %}
+    {% endfor %}
+</ul>
+
+<div class="pagination">
+    <span>
+        {% if page_obj.has_previous %}
+            <a class="more" href="?page=1">&laquo;</a>
+            <a href="?page={{ page_obj.previous_page_number }}">上一页</a>
+        {% else %}
+            <a style="visibility: hidden;">&laquo;</a>
+            <a style="visibility: hidden;">上一页</a>
+        {% endif %}
+
+        <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">下一页</a>
+            <a class="more" href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+        {% else %}
+            <a style="visibility: hidden;">&raquo;</a>
+            <a style="visibility: hidden;">下一页</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}

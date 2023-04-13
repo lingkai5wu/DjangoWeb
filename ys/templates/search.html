@@ -1,0 +1,14 @@
+{% extends "base_ys_contentList.html" %}
+
+{% block title %}搜索结果{% endblock %}
+
+{% block tips %}
+<form action="{% url 'search_redirect' %}" method="get">
+    {{ form }}
+    <input type="submit" value="查询">
+</form>
+{% endblock %}
+
+{% block empty_tips %}
+<h3>没有与此相关的结果，你可以<a href="{% url 'all' %}">查看全部</a></h3>
+{% endblock %}

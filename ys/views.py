@@ -1,13 +1,17 @@
 import requests
-from django.core.exceptions import ObjectDoesNotExist
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import render
+from django.urls import reverse
 from django.utils import timezone
+from django.views import View
+from django.views.generic.base import ContextMixin, TemplateView
+from django.views.generic.list import ListView
 
 from ys.forms import UpdateContentForm, SelectContentForm
 from ys.models import Content, Update
 
 
+# 这段改日重写
 def update_content_list(request):
     context = {}
     if request.method == 'POST':
@@ -46,29 +50,52 @@ def update_content_list(request):
     return render(request, 'update.html', context)
 
 
-def select_content_list(request):
-    context = {}
-    if request.method == 'POST':
-        form = SelectContentForm(request.POST)
-        context['form'] = form
-        if form.is_valid():
-            context['list'] = Content.objects.filter(title__contains=form.cleaned_data['title'])[::-1]
-    else:
-        context['form'] = SelectContentForm()
-    context['total'], context['update_time'] = get_latest_update_info()
-    return render(request, 'index.html', context)
-
-
-def show_all_content_list(request):
-    context = {}
-    context['total'], context['update_time'] = get_latest_update_info()
-    context['list'] = Content.objects.all()[::-1]
-    return render(request, 'all.html', context)
-
-
-def get_latest_update_info():
-    try:
+class UpdateInfoMixin(ContextMixin):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         q = Update.objects.latest('update_time')
-        return q.total, q.update_time
-    except ObjectDoesNotExist:
-        print('需要初始化')
+        context['total'], context['update_time'] = q.total, q.update_time
+        return context
+
+
+class ContentSearchListView(ListView, UpdateInfoMixin):
+    model = Content
+    template_name = 'search.html'
+    paginate_by = 20
+
+    def get_queryset(self):
+        s = self.kwargs['search_keyword']
+        queryset = super().get_queryset().order_by('-start_time').filter(title__icontains=s)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        s = self.kwargs['search_keyword']
+        context['form'] = SelectContentForm(initial={'title': s})
+        return context
+
+
+class ContentListView(ListView, UpdateInfoMixin):
+    model = Content
+    template_name = 'all.html'
+    ordering = '-start_time'
+    paginate_by = 50
+
+
+class SearchRedirectView(View):
+    def get(self, request):
+        search_keyword = request.GET.get('title', '')
+        if search_keyword:
+            redirect_url = reverse('search', args=[search_keyword])
+            return HttpResponseRedirect(redirect_url)
+        else:
+            return HttpResponseBadRequest('搜索关键字不能为空！')
+
+
+class IndexView(TemplateView, UpdateInfoMixin):
+    template_name = 'index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = SelectContentForm()
+        return context
