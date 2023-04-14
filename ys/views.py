@@ -1,10 +1,11 @@
 import requests
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic.base import ContextMixin, TemplateView, RedirectView
-from django.views.generic.list import ListView
+from django.views.generic.list import ListView, MultipleObjectMixin
 
 from ys.forms import UpdateContentForm, SelectContentForm
 from ys.models import Content, Update
@@ -57,15 +58,24 @@ class UpdateInfoMixin(ContextMixin):
         return context
 
 
-class ContentSearchListView(ListView, UpdateInfoMixin):
+class SelectFieldsMixin(MultipleObjectMixin):
     model = Content
+    ordering = '-start_time'
+    select_fields = ['content_id', 'title', 'start_time']
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.only(*self.select_fields)
+
+
+class ContentSearchListView(ListView, UpdateInfoMixin, SelectFieldsMixin):
     template_name = 'search.html'
     paginate_by = 20
 
     def get_queryset(self):
         s = self.kwargs['search_keyword']
-        queryset = super().get_queryset().order_by('-start_time').filter(title__icontains=s)
-        return queryset
+        queryset = super().get_queryset()
+        return queryset.filter(Q(title__icontains=s))
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -74,10 +84,8 @@ class ContentSearchListView(ListView, UpdateInfoMixin):
         return context
 
 
-class ContentListView(ListView, UpdateInfoMixin):
-    model = Content
+class ContentListView(ListView, UpdateInfoMixin, SelectFieldsMixin):
     template_name = 'all.html'
-    ordering = '-start_time'
     paginate_by = 50
 
 
