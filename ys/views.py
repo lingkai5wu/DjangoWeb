@@ -33,7 +33,7 @@ class UpdateInfoMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         q = Update.objects.latest('update_time')
-        context['total'], context['update_time'] = q.total, q.update_time
+        context['total'], context['update_time_diff'] = q.total, q.get_update_time_diff()
         return context
 
 

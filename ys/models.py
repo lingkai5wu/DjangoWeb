@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 # 改变模型需要这三步：
@@ -21,3 +22,17 @@ class Content(models.Model):
 class Update(models.Model):
     update_time = models.DateTimeField()
     total = models.IntegerField()
+
+    def get_update_time_diff(self):
+        now = timezone.now()
+        diff = now - self.update_time
+        total_seconds = diff.total_seconds()
+
+        if total_seconds < 60:
+            return str(int(total_seconds)) + "秒"
+        elif total_seconds < 3600:
+            return str(int(total_seconds / 60)) + "分钟"
+        elif total_seconds < 86400:
+            return str(int(total_seconds / 3600)) + "小时"
+        else:
+            return str(int(total_seconds / 86400)) + "天"
