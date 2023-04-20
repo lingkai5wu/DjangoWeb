@@ -28,7 +28,7 @@ def update_content(content):
         content_id=content['contentId'],
         defaults={'content_id': content['contentId'],
                   'title': content['title'],
-                  'start_time': content['start_time']}
+                  'start_time': content['start_time'] + '+08:00'}
     )
     return f'添加\t{obj.title}' if created else f'覆盖\t{obj.title}'
 
