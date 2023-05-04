@@ -11,7 +11,7 @@ from ys.models import Content, Update
 
 
 class UpdateContentView(FormView):
-    template_name = 'update.html'
+    template_name = 'ys/update.html'
     form_class = UpdateContentForm
 
     def form_valid(self, form):
@@ -48,7 +48,7 @@ class SelectFieldsMixin(MultipleObjectMixin):
 
 
 class ContentSearchListView(ListView, UpdateInfoMixin, SelectFieldsMixin):
-    template_name = 'search.html'
+    template_name = 'ys/search.html'
     paginate_by = 20
 
     def get_queryset(self):
@@ -64,7 +64,7 @@ class ContentSearchListView(ListView, UpdateInfoMixin, SelectFieldsMixin):
 
 
 class ContentListView(ListView, UpdateInfoMixin, SelectFieldsMixin):
-    template_name = 'all.html'
+    template_name = 'ys/all.html'
     paginate_by = 50
 
 
@@ -75,7 +75,7 @@ class SearchRedirectView(RedirectView):
 
 
 class IndexView(TemplateView, UpdateInfoMixin):
-    template_name = 'index.html'
+    template_name = 'ys/index.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
