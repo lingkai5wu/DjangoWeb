@@ -70,6 +70,7 @@ li {
     display: flex;
     justify-content: center;
     margin: 20px 0;
+    user-select: none;
 }
 
 .pagination a {
