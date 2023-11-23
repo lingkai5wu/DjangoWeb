@@ -33,7 +33,6 @@ ALLOWED_HOSTS = [
 
 INSTALLED_APPS = [
     'ys.apps.YsConfig',
-    'sr.apps.SrConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
