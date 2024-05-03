@@ -26,7 +26,13 @@ class UpdateContentView(FormView):
         return self.render_to_response(context)
 
     def get_initial(self):
-        return {'page_size': 20, 'page_num': 1, 'channel_id': 10}
+        return {
+            'iAppId': 43,
+            'iChanId': 719,
+            'iPageSize': 100,
+            'iPage': 1,
+            'sLangKey': 'zh-cn'
+        }
 
 
 class UpdateInfoMixin(ContextMixin):
