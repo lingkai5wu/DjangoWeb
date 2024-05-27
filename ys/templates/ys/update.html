@@ -8,7 +8,7 @@
 <div>
     <h3>更新 | <a href="{% url 'index' %}">返回查询</a></h3>
 
-    <form action="{% url 'update' %}" method="post">
+    <form action="{% url 'form_update' %}" method="post">
         {% csrf_token %}
         <table>
             {{ form.as_table }}

@@ -1,16 +1,19 @@
+import json
+
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
-from django.views.generic.base import ContextMixin, TemplateView, RedirectView
+from django.views.generic.base import ContextMixin, TemplateView, RedirectView, View
 from django.views.generic.list import ListView, MultipleObjectMixin
 
 from ys.forms import UpdateContentForm, SelectContentForm
 from ys.models import Content, Update
 
 
-class UpdateContentView(FormView):
+class FormUpdateView(FormView):
     template_name = 'ys/update.html'
     form_class = UpdateContentForm
 
@@ -87,3 +90,26 @@ class IndexView(TemplateView, UpdateInfoMixin):
         context = super().get_context_data(**kwargs)
         context['form'] = SelectContentForm()
         return context
+
+
+class JsonUpdateView(View):
+
+    @staticmethod
+    def get(request):
+        latest = Update.objects.latest('update_time')
+        data = {
+            'update_time': latest.update_time,
+            'total': latest.total
+        }
+        return JsonResponse(data)
+
+    @staticmethod
+    @csrf_exempt
+    def post(request):
+        json_data = json.loads(request.body)
+        token = 'temp'
+        if json_data['token'] != token:
+            return
+        result = [UpdateContentForm.update_content(content) for content in json_data['content_list']]
+        Update.objects.create(update_time=timezone.now(), total=json_data['total'])
+        return JsonResponse(result, safe=False)
