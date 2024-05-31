@@ -1,2 +1,5 @@
 Django
 requests
+django-haystack
+jieba
+Whoosh

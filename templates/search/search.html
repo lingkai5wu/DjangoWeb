@@ -1,0 +1,51 @@
+{% extends "ys/base_ys.html" %}
+{% load highlight %}
+
+{% block head %}
+    {% load static %}
+    <link href="{% static 'contentStyle.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block container %}
+    <form action="." method="get">
+        {{ form }}
+        <input type="submit" value="全文搜索">
+        <input type="button" value="切换至标题搜索" onclick="window.location.href='{% url 'index' %}'"/>
+    </form>
+    {% if query %}
+        <ul>
+            {% for result in page.object_list %}
+                <li>
+                    <a class="item" href="https://ys.mihoyo.com/main/news/detail/{{ result.object.content_id }}">
+                        <h4 class="title" title="{{ result.object.title }}">{{ result.object.title }}</h4>
+                        <div style="text-align: right">{{ result.object.start_time }}</div>
+                        <div>{% highlight result.object.content_text with query css_class "highlight" %}</div>
+                    </a>
+                </li>
+            {% empty %}
+                <h3>没有与此相关的结果，你可以<a href="{% url 'all' %}">查看全部</a></h3>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="pagination">
+    <span>
+        {% if page.has_previous %}
+            <a class="more" href="?q={{ query }}&amp;page=1">&laquo;</a>
+            <a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">上一页</a>
+        {% else %}
+            <a style="visibility: hidden;">&laquo;</a>
+            <a style="visibility: hidden;">上一页</a>
+        {% endif %}
+
+        <span class="current">{{ page.number }} / {{ page.paginator.num_pages }}</span>
+
+        {% if page.has_next %}
+            <a href="?q={{ query }}&amp;page={{ page.next_page_number }}">下一页</a>
+            <a class="more" href="?q={{ query }}&amp;page={{ page.paginator.num_pages }}">&raquo;</a>
+        {% else %}
+            <a style="visibility: hidden;">&raquo;</a>
+            <a style="visibility: hidden;">下一页</a>
+        {% endif %}
+    </span>
+    </div>
+{% endblock %}

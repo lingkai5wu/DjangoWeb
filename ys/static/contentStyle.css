@@ -17,7 +17,8 @@ input {
     font-size: 18px;
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="search"] {
     flex-grow: 1;
     padding: 6px;
     border: 2px solid #ddd;
@@ -26,12 +27,14 @@ input[type="text"] {
     max-width: 300px;
 }
 
-input[type="submit"] {
+input[type="submit"],
+input[type="button"] {
     background-color: #333;
     color: #fff;
     padding: 6px 12px;
     border-radius: 6px;
     border: none;
+    margin-right: 10px;
 }
 
 ul {
@@ -97,4 +100,8 @@ li {
     .pagination .more {
         display: none;
     }
+}
+
+.highlight {
+    color: brown;
 }

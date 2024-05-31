@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
 from django.views.generic.base import ContextMixin, TemplateView, RedirectView, View
 from django.views.generic.list import ListView, MultipleObjectMixin
+from haystack.generic_views import SearchView
+from haystack.management.commands import update_index
 
 from ys.forms import UpdateContentForm, SelectContentForm
 from ys.models import Content, Update
@@ -56,7 +58,7 @@ class SelectFieldsMixin(MultipleObjectMixin):
         return queryset.only(*self.select_fields)
 
 
-class ContentSearchListView(ListView, UpdateInfoMixin, SelectFieldsMixin):
+class ContentSearchListView(SearchView, UpdateInfoMixin, SelectFieldsMixin):
     template_name = 'ys/search.html'
     paginate_by = 20
 
@@ -72,7 +74,7 @@ class ContentSearchListView(ListView, UpdateInfoMixin, SelectFieldsMixin):
         return context
 
 
-class ContentListView(ListView, UpdateInfoMixin, SelectFieldsMixin):
+class ContentListView(ListView, SelectFieldsMixin):
     template_name = 'ys/all.html'
     paginate_by = 50
 
@@ -112,4 +114,5 @@ class JsonUpdateView(View):
             return
         result = [UpdateContentForm.update_content(content) for content in json_data['content_list']]
         Update.objects.create(update_time=timezone.now(), total=json_data['total'])
+        update_index.Command().handle(age=24)
         return JsonResponse(result, safe=False)

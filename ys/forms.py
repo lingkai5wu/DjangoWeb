@@ -25,9 +25,12 @@ class UpdateContentForm(forms.Form):
     def update_content(content):
         obj, created = Content.objects.update_or_create(
             content_id=content['iInfoId'],
-            defaults={'content_id': content['iInfoId'],
-                      'title': content['sTitle'],
-                      'start_time': content['dtStartTime'] + '+08:00'}
+            defaults={
+                'content_id': content['iInfoId'],
+                'title': content['sTitle'],
+                'start_time': content['dtStartTime'] + '+08:00',
+                'content_text': content['sContent']
+            }
         )
         return f'{"添加" if created else "覆盖"}\t{obj.title}'
 

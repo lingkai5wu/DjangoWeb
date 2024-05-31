@@ -1,3 +1,4 @@
 /ys/migrations/
 /.idea
 /venv/
+/whoosh_index/

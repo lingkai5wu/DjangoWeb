@@ -11,8 +11,15 @@
 {% block container %}
     <form action="{% url 'search_redirect' %}" method="get">
         {{ form }}
-        <input type="submit" value="查询">
+        <input type="submit" value="标题搜索">
+        <input type="button" value="切换至全文搜索" onclick="window.location.href='{% url 'haystack_search' %}'"/>
     </form>
-    <h3>在上方输入关键词搜索，或<a href="{% url 'all' %}">查看全部</a></h3>
-    <h3>项目开源: <a href="https://github.com/lingkai5wu/DjangoWeb">Github</a></h3>
+    <h3>
+        在上方输入关键词搜索，或<a href="{% url 'all' %}">查看全部</a>
+    </h3>
+    <h4>
+        <a href="https://github.com/lingkai5wu/DjangoWeb">项目开源</a>
+        数据库更新于{{ update_time_diff }}前
+        已收录{{ total }}条内容
+    </h4>
 {% endblock %}
