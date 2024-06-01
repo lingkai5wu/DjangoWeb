@@ -8,7 +8,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView
 from django.views.generic.base import ContextMixin, TemplateView, RedirectView, View
 from django.views.generic.list import ListView, MultipleObjectMixin
-from haystack.generic_views import SearchView
 from haystack.management.commands import update_index
 
 from ys.forms import UpdateContentForm, SelectContentForm
@@ -58,7 +57,7 @@ class SelectFieldsMixin(MultipleObjectMixin):
         return queryset.only(*self.select_fields)
 
 
-class ContentSearchListView(SearchView, UpdateInfoMixin, SelectFieldsMixin):
+class ContentSearchListView(ListView, UpdateInfoMixin, SelectFieldsMixin):
     template_name = 'ys/search.html'
     paginate_by = 20
 
